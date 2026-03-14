@@ -1,0 +1,15 @@
+"We want you to model some types of group activities that can be found on SiT's 
+website for training in Trondheim. This is approx. 30 different activities. Of these, you 
+must include activities marked as "spin". For each type of activity, include the 
+description of the activity found on the website."
+og
+"We want you to enter data for a three-day period, i.e. starting on 16 March and ending on 
+18 March. During this period, we want you to only enter data for activities of the type 
+"Spinning" at Øya training center and at Dragvoll, i.e. all forms of spinning."
+SNAKKER IKKE DISSE MOT HVERANDRE???
+
+
+
+"Insert facilities, saddles and some bicycles for the Øya training centre. "
+HVA FAEN ER EN SADDLE????
+

@@ -3,6 +3,7 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE
     gym (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL, --ADDED
         open_time TEXT NOT NULL CHECK (open_time LIKE '__:__'),
         closing_time TEXT NOT NULL CHECK (closing_time LIKE '__:__'),
         address_street TEXT NOT NULL,
@@ -112,6 +113,7 @@ CREATE TABLE
 CREATE TABLE
     group_lesson (
         start_time TEXT NOT NULL CHECK (start_time LIKE '____-__-__ __:__:00'),
+        end_time TEXT NOT NULL CHECK (end_time LIKE '____-__-__ __:__:00'), --ADDED (idk hvorfor den ikke var her fra før)
         instructor_id INTEGER NOT NULL,
         max_participants_at_creation INTEGER NOT NULL,
         activity_id INTEGER NOT NULL,
