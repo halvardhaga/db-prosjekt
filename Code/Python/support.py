@@ -14,7 +14,7 @@ def print_banner() -> None:
 /_______  /|___| |____|    /_______  (____  /__| (____  /___  (____  /____  >\___  >
         \/                         \/     \/          \/    \/     \/     \/     \/ 
 
-Simple terminal app for interacting with SIT databse – type "help" for a list of commands.
+Simple terminal app for interacting with SIT database – type "help" for a list of commands.
 """
 
     print(banner)
@@ -29,7 +29,7 @@ def show_help(args: list) -> None:
         for cmd in sorted(dispatcher.COMMANDS):
             print(f"  {cmd}")
         print("For more detailed help, type \"help <command>\".")
-        
+
     else:
         # First argument: show detailed help for that command
         command = args[0].lower()

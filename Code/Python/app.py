@@ -17,7 +17,9 @@ def main():
 
     while True:
         command_line = input("> ")
-        dispatcher.dispatch(command_line)
+        result = dispatcher.dispatch(command_line)
+        if result is not None:
+            print(result)
 
 if __name__ == "__main__":
     main()

@@ -4,7 +4,7 @@ from typing import Dict, Callable, List, Any
 import app
 import support
 
-#Defines all allowable commands. 
+#Defines all allowable commands and their handler functions.
 COMMANDS: Dict[str, Callable[[List[str]], Any]] = {
     "help": support.show_help,
     "exit": app.exit_app,
