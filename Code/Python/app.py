@@ -16,17 +16,22 @@ def exit_app(args: list) -> None:
     print("Goodbye!")
     sys.exit(0)
 
-
-def main():
-    support.print_banner()
-
-    # Create DB file with schema if not exists
+def db_init():
+    """Initialize the database, if not already initialized."""
     if not os.path.exists(HERE.parent / db_path):
         conn = sqlite3.connect(HERE.parent / db_path)
         with open(HERE.parent / "SQL" / "db-creator.sql", 'r') as f:
-            sql = f.read()
-        conn.executescript(sql)
+            sqlschema = f.read()
+        conn.executescript(sqlschema)
+        with open(HERE.parent / "SQL" / "trigger-creator.sql", 'r') as f:
+            sqltrigger = f.read()
+        conn.executescript(sqltrigger)
         conn.close()
+
+
+def main():
+    support.print_banner()
+    db_init()
 
     # Main command loop
     while True:

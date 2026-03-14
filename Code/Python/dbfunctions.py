@@ -14,12 +14,8 @@ def nuke(args: List, conn: sqlite3.Connection) -> str:
     if validation.lower() != "y":
         return "Database nuke cancelled."
     
-    conn.close()
     os.remove(app.HERE.parent / app.db_path)
-    conn = sqlite3.connect(app.HERE.parent / app.db_path)
-    with open(app.HERE.parent / "SQL" / "db-creator.sql", 'r') as f:
-        sql = f.read()
-    conn.executescript(sql)
+    app.db_init()
     return "Database cleared and recreated"
 
 def insert_dummy_data(args: List, conn: sqlite3.Connection) -> str:
