@@ -1,3 +1,6 @@
+--THIS FILE CREATES THE DATABASE.
+
+--Enforce foreign key constraints
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE

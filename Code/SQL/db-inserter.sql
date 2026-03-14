@@ -117,6 +117,3 @@ INSERT INTO group_lesson (start_time, end_time, instructor_id, max_participants_
     ('2026-03-18 17:30:00', '2026-03-18 18:15:00', 20, 20, 1, 3),   -- Spin 4x4, Sindre K. S., Spinningsal Øya
     ('2026-03-18 18:30:00', '2026-03-18 19:15:00', 21, 20, 2, 3),   -- Spin45, Kaja S., Spinningsal Øya
     ('2026-03-18 19:30:00', '2026-03-18 20:25:00', 22, 20, 3, 3);   -- Spin8x3, Amalie M. H., Spinningsal Øya
-
-
-    
