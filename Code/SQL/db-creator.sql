@@ -90,7 +90,7 @@ CREATE TABLE
         first_name TEXT NOT NULL,
         last_name TEXT NOT NULL,
         email TEXT NOT NULL CHECK (email LIKE '%_@_%._%'),
-        mobile_number TEXT NOT NULL CHECK (length (mobile_number) BETWEEN 10 AND 15),
+        mobile_number TEXT NOT NULL CHECK (length (mobile_number) BETWEEN 9 AND 15),
         is_sit_member INTEGER NOT NULL CHECK (is_sit_member IN (0, 1)) DEFAULT 0,
         UNIQUE(email, mobile_number)
     );

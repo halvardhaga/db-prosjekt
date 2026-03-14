@@ -4,15 +4,20 @@ from typing import Dict, Callable, List, Any
 import app
 import support
 import dbfunctions
+import sqlite3
 
 #Defines all allowable commands and their handler functions.
 COMMANDS: Dict[str, Callable[[List[str]], Any]] = {
     "help": support.show_help,
     "exit": app.exit_app,
+    "nuke": dbfunctions.nuke,
+    "insert_dummy_data": dbfunctions.insert_dummy_data
 } 
 
 def dispatch(command_line: str) -> Any:
-    """Parse a command line and dispatch to correct handler. Returns results."""
+    """Parse a command line and dispatch to correct handler. Returns results.
+    If command is database related, a connection is established and passed to the handler function, then closed. 
+    If command is unknown, prints error message and returns None."""
 
     parts = command_line.split()
     command = parts[0].lower()
@@ -20,6 +25,13 @@ def dispatch(command_line: str) -> Any:
 
     if command not in COMMANDS:
         print(f"Unknown command: {command} – type \"help\" for a list of commands.")
-        return
+        return None
 
-    return COMMANDS[command](args)
+    if COMMANDS[command].__module__ == 'dbfunctions':
+        con = sqlite3.connect(app.HERE.parent / app.db_path)
+        result = COMMANDS[command](args, con)
+        con.close()
+        return result
+    else:
+        #App command
+        return COMMANDS[command](args)

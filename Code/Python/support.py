@@ -1,6 +1,5 @@
 """Contains various support functions not critical to the funcitonality of the app"""
 
-import app
 import dispatcher
 
 def print_banner() -> None:
@@ -39,5 +38,11 @@ def show_help(args: list) -> None:
         elif command == "exit":
             print("exit: Exits the application.")
             print("Usage: exit")
+        elif command == "nuke":
+            print("nuke: Clears the database by deleting the file and recreating the schema.")
+            print("Usage: nuke")
+        elif command == "insert_dummy_data":
+            print("insert_dummy_data: Inserts dummy data into the database from db-inserter.sql. For testing purposes.")
+            print("Usage: insert_dummy_data")
         else:
             print(f"No detailed help available for '{command}'. Type 'help' for a list of commands.")
