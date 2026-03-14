@@ -3,6 +3,7 @@
 from typing import Dict, Callable, List, Any
 import app
 import support
+import dbfunctions
 
 #Defines all allowable commands and their handler functions.
 COMMANDS: Dict[str, Callable[[List[str]], Any]] = {

@@ -1,4 +1,4 @@
-"""Contains various support functions not critical to the funcitonality of app"""
+"""Contains various support functions not critical to the funcitonality of the app"""
 
 import app
 import dispatcher
