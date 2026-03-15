@@ -11,7 +11,13 @@ COMMANDS: Dict[str, Callable[[List[str]], str]] = {
     "help": support.show_help,
     "exit": app.exit_app,
     "nuke": dbfunctions.nuke,
-    "insert_dummy_data": dbfunctions.insert_dummy_data
+    "insert_dummy_data": dbfunctions.insert_dummy_data,
+    "book_lesson": dbfunctions.book_lesson,
+    "attend_gym": dbfunctions.attend_gym,
+    "attend_class": dbfunctions.attend_class,
+    "weekly_schedule": dbfunctions.weekly_schedule,
+    "visit_history": dbfunctions.visit_history,
+    "most_group_lessons": dbfunctions.most_group_lessons
 } 
 
 def dispatch(command_line: str) -> str:
