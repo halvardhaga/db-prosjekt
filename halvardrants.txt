@@ -17,3 +17,7 @@ HVA FAEN ER EN SADDLE????
 
 Hvordan identifisere brukere i commandoen? Epost? Navn? Tlf? Kjipt å bruke id. Da må man liksom hente og søke fram iden selv. 
 Lowkey burde ikke person ha id, burde bare være definert av tlf eller epost. 
+
+
+Tror ikke programmet burde bruke nåværende tid for sjekker. 
+Det gjør det vanskeligere å teste use cases, dersom ting er dependent på maskinens tid. 

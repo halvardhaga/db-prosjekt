@@ -13,6 +13,7 @@ All functions follow:
 
 """
 
+import re
 import sqlite3
 from typing import List
 import os
@@ -109,7 +110,7 @@ def weekly_schedule (args: List, conn: sqlite3.Connection) -> str:
     Returns all group lessons for a given week.
 
     Args:
-        - week: 
+        - week: In the format YYYY-WW
     """
     #TODO
     return "Function not implementet yet"
@@ -121,6 +122,7 @@ def visit_history (args: List, conn: sqlite3.Connection) -> str:
 
     Args:
         - username:
+        - year: Optional, if not given, returns all history. If given, returns only history for that year.
     """
     #TODO
     return "Function not implementet yet"
@@ -131,7 +133,38 @@ def most_group_lessons (args: List, conn: sqlite3.Connection) -> str:
     Returns the user(s) who has had the most group lessons for a given month.
 
     Args:
-        - Month:
+        - month: Month in format YYYY-MM (e.g. 2026-03)
     """
-    #TODO
-    return "Function not implementet yet"
+
+    if len(args) != 1:
+        raise ValueError("Usage: most_group_lessons <YYYY-MM>")
+
+    month = args[0]
+    if not re.match(r"^\d{4}-(0[1-9]|1[0-2])$", month):
+        raise ValueError("Month must be in YYYY-MM format")
+
+    cur = conn.cursor()
+    cur.execute(
+        """
+        SELECT person_id, COUNT(*) as cnt
+        FROM group_lesson_arrival
+        WHERE substr(time,1,7) = ?
+        GROUP BY person_id
+        """,
+        (month,)
+    )
+    rows = cur.fetchall()
+
+    if not rows:
+        return f"No group lesson attendance records found for {month}."
+
+    max_cnt = max(r[1] for r in rows)
+    winner_ids = [r[0] for r in rows if r[1] == max_cnt]
+
+    placeholders = ','.join('?' for _ in winner_ids)
+    cur.execute(f"SELECT first_name, last_name FROM person WHERE id IN ({placeholders}) ORDER BY last_name, first_name", tuple(winner_ids))
+    names = [f"{fn} {ln}" for fn, ln in cur.fetchall()]
+
+    if len(names) == 1:
+        return f"Most group lessons in {month}: {names[0]} ({max_cnt})"
+    return f"Most group lessons in {month}: {', '.join(names)} ({max_cnt})"
