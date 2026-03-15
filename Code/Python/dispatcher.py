@@ -28,7 +28,7 @@ def dispatch(command_line: str) -> Any:
         return None
 
     if COMMANDS[command].__module__ == 'dbfunctions':
-        con = sqlite3.connect(app.HERE.parent / app.db_path)
+        con = sqlite3.connect(app.DB_PATH)
         result = COMMANDS[command](args, con)
         con.close()
         return result
