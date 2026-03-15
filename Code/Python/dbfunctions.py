@@ -68,6 +68,7 @@ def insert_dummy_data(args: List, conn: sqlite3.Connection) -> str:
     conn.executescript(sql)
     return "Dummy data inserted"
 
+#Use case 2
 def book_lesson (args: List, conn: sqlite3.Connection) -> str:
     """
     Create booking for group lesson.
