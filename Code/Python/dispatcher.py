@@ -7,14 +7,14 @@ import dbfunctions
 import sqlite3
 
 #Defines all allowable commands and their handler functions.
-COMMANDS: Dict[str, Callable[[List[str]], Any]] = {
+COMMANDS: Dict[str, Callable[[List[str]], str]] = {
     "help": support.show_help,
     "exit": app.exit_app,
     "nuke": dbfunctions.nuke,
     "insert_dummy_data": dbfunctions.insert_dummy_data
 } 
 
-def dispatch(command_line: str) -> Any:
+def dispatch(command_line: str) -> str:
     """Parse a command line and dispatch to correct handler. Returns results.
     If command is database related, a connection is established and passed to the handler function, then closed. 
     If command is unknown, prints error message and returns None."""
