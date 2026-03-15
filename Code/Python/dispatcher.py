@@ -34,6 +34,7 @@ def dispatch(command_line: str) -> str:
         return None
 
     if COMMANDS[command].__module__ == 'dbfunctions':
+        #Database command
         con = sqlite3.connect(app.DB_PATH)
         result = COMMANDS[command](args, con)
         con.close()
