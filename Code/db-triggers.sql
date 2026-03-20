@@ -77,7 +77,7 @@ SELECT RAISE (ABORT, "Creation blocked: max_participants_at_creation must equal 
 WHERE NEW.max_participants_at_creation != (
     SELECT max_people
     FROM facility
-    WHERE facility_id = NEW.facility_id
+    WHERE id = NEW.id
 );
 END;
 
@@ -89,7 +89,7 @@ SELECT RAISE (ABORT, "Update blocked: max_participants_at_creation must equal th
 WHERE NEW.max_participants_at_creation != (
     SELECT max_people
     FROM facility
-    WHERE facility_id = NEW.facility_id
+    WHERE id = NEW.id
 );
 END;
 
@@ -101,7 +101,7 @@ SELECT RAISE (ABORT, "Creation blocked: Instructor must have a sit membership.")
 WHERE (
     SELECT is_sit_member
     FROM person
-    WHERE person_id = NEW.instructor_id
+    WHERE id = NEW.instructor_id
 ) != 1;
 END;
 
@@ -113,7 +113,7 @@ SELECT RAISE (ABORT, "Update blocked: Instructor must have a sit membership.")
 WHERE (
     SELECT is_sit_member
     FROM person
-    WHERE person_id = NEW.instructor_id
+    WHERE id = NEW.instructor_id
 ) != 1;
 END;
 
@@ -157,17 +157,20 @@ WHERE NOT EXISTS (
 );
 END;
 
---Arival times are withing gym opening hours
+--Arival times are within gym opening hours
 CREATE TRIGGER trg_group_lesson_arrival_within_gym_opening_hours
 BEFORE INSERT ON group_lesson_arrival
 BEGIN
 SELECT RAISE (ABORT, "Arrival blocked: Arrival time must be within gym opening hours.")
 WHERE NOT EXISTS (
     SELECT 1
-    FROM gym AS G
-    WHERE G.id = NEW.gym_id
+    FROM gym as G
+    JOIN facility AS F ON F.gym_id = G.id
+    JOIN group_lesson AS GL ON GL.facility_id = F.id
+    AND GL.start_time = NEW.group_lesson_start_time
+    AND GL.instructor_id = NEW.group_lesson_instructor_id
     --Gets the hours and minute out if the arrival time and compares it to the opening hours of the gym
-    AND strftime('%H:%M', NEW.time) >= G.open_time
+    WHERE strftime('%H:%M', NEW.time) >= G.open_time
     AND strftime('%H:%M', NEW.time) <= G.closing_time
 );
 END;
@@ -183,7 +186,7 @@ WHERE NOT EXISTS (
     JOIN facility AS F ON F.gym_id = G.id
     WHERE F.id = NEW.facility_id
     AND strftime('%H:%M', NEW.start_time) >= G.open_time
-    AND strftime('%H:%M', NEW.end_time) <= G.closing_time
+    --Kan bare sjekke start_time siden det ikke fins noen end_time på group_lesson
 );
 END;
 
