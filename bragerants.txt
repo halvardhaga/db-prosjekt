@@ -14,3 +14,6 @@ DET FINS FUCKINGS EVIGE EDGE CASES Å LAGE TRIGGERS OM
 
 Problemet e at det e så sykt mange triggers at eg har lowkey mista oversikten øve ka eg har lagt te og ikke lagt te
 Så eg 100% at du lese øve og sjekke logikken
+
+Se logikken på linje 43 og 62, per nå så dette ikke mulig fordi de ikke har et end_time field, men det e noe me kunne ha vurdert
+mer stress da, så har bare kommentert det for nå

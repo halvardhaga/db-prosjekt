@@ -39,13 +39,14 @@ SELECT RAISE (ABORT, 'Booking blocked: Facility is already booked by a group les
 WHERE EXISTS (
     SELECT 1
     FROM group_lesson
-    WHERE group_lesson.facility_id = NEW.facility_id AND (
-        (datetime(NEW.start_time) >= datetime(group_lesson.start_time) AND datetime(NEW.start_time) < datetime(group_lesson.end_time))
-        OR
-        (datetime(NEW.end_time) > datetime(group_lesson.start_time) AND datetime(NEW.end_time) <= datetime(group_lesson.end_time))
-        OR
-        (datetime(NEW.start_time) <= datetime(group_lesson.start_time) AND datetime(NEW.end_time) >= datetime(group_lesson.end_time))
-    )
+    WHERE group_lesson.facility_id = NEW.facility_id 
+    --     AND (
+    --     (datetime(NEW.start_time) >= datetime(group_lesson.start_time) AND datetime(NEW.start_time) < datetime(group_lesson.end_time))
+    --     OR
+    --     (datetime(NEW.end_time) > datetime(group_lesson.start_time) AND datetime(NEW.end_time) <= datetime(group_lesson.end_time))
+    --     OR
+    --     (datetime(NEW.start_time) <= datetime(group_lesson.start_time) AND datetime(NEW.end_time) >= datetime(group_lesson.end_time))
+    -- )
 )
 END;
 
@@ -57,13 +58,14 @@ SELECT RAISE (ABORT, 'Booking blocked: Facility is already booked by a sport tea
 WHERE EXISTS (
     SELECT 1
     FROM sport_team_booking
-    WHERE sport_team_booking.facility_id = NEW.facility_id AND (
-        (datetime(NEW.start_time) >= datetime(sport_team_booking.start_time) AND datetime(NEW.start_time) < datetime(sport_team_booking.end_time))
-        OR
-        (datetime(NEW.end_time) > datetime(sport_team_booking.start_time) AND datetime(NEW.end_time) <= datetime(sport_team_booking.end_time))
-        OR
-        (datetime(NEW.start_time) <= datetime(sport_team_booking.start_time) AND datetime(NEW.end_time) >= datetime(sport_team_booking.end_time))
-    )
+    WHERE sport_team_booking.facility_id = NEW.facility_id 
+    --     AND (
+    --     (datetime(NEW.start_time) >= datetime(sport_team_booking.start_time) AND datetime(NEW.start_time) < datetime(sport_team_booking.end_time))
+    --     OR
+    --     (datetime(NEW.end_time) > datetime(sport_team_booking.start_time) AND datetime(NEW.end_time) <= datetime(sport_team_booking.end_time))
+    --     OR
+    --     (datetime(NEW.start_time) <= datetime(sport_team_booking.start_time) AND datetime(NEW.end_time) >= datetime(sport_team_booking.end_time))
+    -- )
 )
 END;
 
