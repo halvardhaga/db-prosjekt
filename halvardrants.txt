@@ -7,17 +7,22 @@ og
 18 March. During this period, we want you to only enter data for activities of the type 
 "Spinning" at Øya training center and at Dragvoll, i.e. all forms of spinning."
 SNAKKER IKKE DISSE MOT HVERANDRE???
+>Tror ikke det, virke bare som me ska legge inn data fra 16-18 mars om spinning på Øya og Dragvoll, det e sånn eg tolke det iallefal
 
 
 
 "Insert facilities, saddles and some bicycles for the Øya training centre. "
 HVA FAEN ER EN SADDLE????
+>Græla godt spørsmål
 
 
 
 Hvordan identifisere brukere i commandoen? Epost? Navn? Tlf? Kjipt å bruke id. Da må man liksom hente og søke fram iden selv. 
 Lowkey burde ikke person ha id, burde bare være definert av tlf eller epost. 
+>Veldig veldig uenig, en person burde 100% ha en id, men man kan bruke både tlf og epost for å identifisere en bruker
+ siden de begge e superkeys
 
 
 Tror ikke programmet burde bruke nåværende tid for sjekker. 
 Det gjør det vanskeligere å teste use cases, dersom ting er dependent på maskinens tid. 
+>Skjønne ikke helt ka du meine her?
