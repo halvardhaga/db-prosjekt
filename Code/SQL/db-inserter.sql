@@ -124,4 +124,3 @@ INSERT INTO group_lesson (start_time, end_time, instructor_id, max_participants_
 
 --ADD ARRIVALS
 --TODO
-

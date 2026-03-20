@@ -17,3 +17,4 @@ Så eg 100% at du lese øve og sjekke logikken
 
 Se logikken på linje 43 og 62, per nå så dette ikke mulig fordi de ikke har et end_time field, men det e noe me kunne ha vurdert
 mer stress da, så har bare kommentert det for nå
+H: Står i ER diagrammet vårt at sport team bookin skal ha en end time. Så legger det inn nå, tror bare vi har surra. 

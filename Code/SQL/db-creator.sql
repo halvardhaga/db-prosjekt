@@ -79,6 +79,7 @@ CREATE TABLE
         sport_team_id INTEGER NOT NULL,
         facility_id INTEGER NOT NULL,
         start_time TEXT NOT NULL CHECK (start_time LIKE '____-__-__ __:__:00'),
+        end_time TEXT NOT NULL CHECK (start_time LIKE '____-__-__ __:__:00'), --ADDED
         PRIMARY KEY (sport_team_id, facility_id, start_time),
         FOREIGN KEY (sport_team_id) REFERENCES sport_team (id) ON DELETE CASCADE,
         FOREIGN KEY (facility_id) REFERENCES facility (id) ON DELETE CASCADE
