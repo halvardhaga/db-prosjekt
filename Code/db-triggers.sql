@@ -154,3 +154,48 @@ WHERE NOT EXISTS (
     AND group_lesson_registration.group_lesson_instructor_id = New.group_lesson_instructor_id
 );
 END;
+
+--Arival times are withing gym opening hours
+CREATE TRIGGER trg_group_lesson_arrival_within_gym_opening_hours
+BEFORE INSERT ON group_lesson_arrival
+BEGIN
+SELECT RAISE (ABORT, "Arrival blocked: Arrival time must be within gym opening hours.")
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM gym AS G
+    WHERE G.id = NEW.gym_id
+    --Gets the hours and minute out if the arrival time and compares it to the opening hours of the gym
+    AND strftime('%H:%M', NEW.time) >= G.open_time
+    AND strftime('%H:%M', NEW.time) <= G.closing_time
+);
+END;
+
+--Group lessons are within gym opening hours
+CREATE TRIGGER trg_group_lesson_within_gym_opening_hours
+BEFORE INSERT ON group_lesson
+BEGIN
+SELECT RAISE (ABORT, "Creation blocked: Group lesson start time must be within gym opening hours.")
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM gym AS G
+    JOIN facility AS F ON F.gym_id = G.id
+    WHERE F.id = NEW.facility_id
+    AND strftime('%H:%M', NEW.start_time) >= G.open_time
+    AND strftime('%H:%M', NEW.end_time) <= G.closing_time
+);
+END;
+
+--Same but on update
+CREATE TRIGGER trg_group_lesson_within_gym_opening_hours_update
+BEFORE UPDATE ON group_lesson
+BEGIN
+SELECT RAISE (ABORT, "Update blocked: Group lesson start time must be within gym opening hours.")
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM gym AS G
+    JOIN facility AS F ON F.gym_id = G.id
+    WHERE F.id = NEW.facility_id
+    AND strftime('%H:%M', NEW.start_time) >= G.open_time
+    AND strftime('%H:%M', NEW.end_time) <= G.closing_time
+);
+END;
