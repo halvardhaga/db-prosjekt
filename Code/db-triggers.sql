@@ -113,3 +113,42 @@ WHERE (
 ) != 1;
 END;
 
+--Deny cancelation of a group lesson registration if the group lesson has already started
+CREATE TRIGGER trg_prevent_cancelation_after_lesson_started
+BEFORE DELETE ON group_lesson_registration
+BEGIN
+SELECT RAISE (ABORT, "Cancellation blocked: Cannot cancel registration after the group lesson has started.")
+WHERE datetime(OLD.group_lesson_start_time) <= datetime('now');
+END;
+
+--Make sure a person has arrived at the gym before they can arrive at a group lesson
+CREATE TRIGGER trg_group_lesson_arrival_requires_gym_arrival
+BEFORE INSERT ON group_lesson_arrival
+BEGIN
+SELECT RAISE (ABORT, "Arrival blocked: Person must have arrived at the gym before arriving at a group lesson.")
+WHERE NOT EXISTS (  
+    SELECT 1
+    FROM gym_arrival AS GA
+    JOIN facility AS F ON F.gym_id = GA.gym_id
+    JOIN group_lesson AS GL ON GL.facility_id = F.id
+    AND GL.start_time = New.group_lesson_start_time
+    AND GL.instructor_id = New.group_lesson_instructor_id
+    WHERE GA.person_id = New.person_id
+    AND date(GA.time) = date(New.time) -- Ensures it's the same day
+    AND datetime(GA.time) <= datetime(New.time)
+);
+END;
+
+--Make sure a person is registered for a group lesson before they can arrive at it
+CREATE TRIGGER trg_group_lesson_arrival_requires_registration
+BEFORE INSERT ON group_lesson_arrival
+BEGIN
+SELECT RAISE (ABORT, "Arrival blocked: Person must be registered for the group lesson before arriving.")
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM group_lesson_registration
+    WHERE group_lesson_registration.person_id = New.person_id
+    AND group_lesson_registration.group_lesson_start_time = New.group_lesson_start_time
+    AND group_lesson_registration.group_lesson_instructor_id = New.group_lesson_instructor_id
+);
+END;

@@ -1,5 +1,13 @@
 Vil me ha triggers om kansellering av registrering?
 >Legge det ikke inn for nå, men noe å tenke om
+>Jo me må lowkey det siden ellers gir ikke waiting listen noe meining
 
 Triggers e noe shit, eg har aldri følt meg så lat som når eg drive å bare trykke 'tab' og ser om onkel har spytta
 ut noe fornuftig elle ikke
+
+Usikker på om triggeren: trg_group_lesson_arrival_requires_gym_arrival på linje 116 funke ordentlig
+Sånn den sjekke korrekt om de har en gym_arrival før en group_lesson_arrival, men eg tror lowkey den bare
+sjekke om du har en i det hele tatt, og sånn eg vetkje helt kossen me ska sjekke at det e innenfor et reasonable tidspunkt?
+Muligens bare sjekke om det e innenfor 24t? IDK. VET DU KA? Eg legge te at det må vær på samme dag, skyt meg
+
+DET FINS FUCKINGS EVIGE EDGE CASES Å LAGE TRIGGERS OM
