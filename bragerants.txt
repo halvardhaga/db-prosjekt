@@ -11,3 +11,6 @@ sjekke om du har en i det hele tatt, og sånn eg vetkje helt kossen me ska sjekk
 Muligens bare sjekke om det e innenfor 24t? IDK. VET DU KA? Eg legge te at det må vær på samme dag, skyt meg
 
 DET FINS FUCKINGS EVIGE EDGE CASES Å LAGE TRIGGERS OM
+
+Problemet e at det e så sykt mange triggers at eg har lowkey mista oversikten øve ka eg har lagt te og ikke lagt te
+Så eg 100% at du lese øve og sjekke logikken

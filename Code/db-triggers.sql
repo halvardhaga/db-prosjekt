@@ -22,13 +22,13 @@ BEGIN
     SELECT 
         NEW.person_id,
         datetime(NEW.time)
-    WHERE datetime(NEW.time) > datetime(
+    WHERE datetime(NEW.time) > (
         --Gets the start time of the group lesson the person is arriving late to
-        (SELECT start_time FROM group_lesson
-         WHERE start_time    = NEW.group_lesson_start_time
-           AND instructor_id = NEW.group_lesson_instructor_id)
-        - '5 minutes'
-    )
+        SELECT datetime(start_time,'-5 minutes')
+        FROM group_lesson
+        WHERE start_time = NEW.group_lesson_start_time
+        AND instructor_id = NEW.group_lesson_instructor_id
+    );
 END;
 
 --Prevent double booking of a facility by a sport team if a group lesson is already sheduled at that time
@@ -47,6 +47,7 @@ WHERE EXISTS (
         (datetime(NEW.start_time) <= datetime(group_lesson.start_time) AND datetime(NEW.end_time) >= datetime(group_lesson.end_time))
     )
 )
+END;
 
 --Prevent double booking of a facility by a group lesson if a sport team has already booked it at that time
 CREATE TRIGGER trg_prevent_double_booking_group_lesson_vs_team
@@ -64,6 +65,7 @@ WHERE EXISTS (
         (datetime(NEW.start_time) <= datetime(sport_team_booking.start_time) AND datetime(NEW.end_time) >= datetime(sport_team_booking.end_time))
     )
 )
+END;
 
 --Make sure that group_lessons's max_participants_at_creation equals the facilities max_people
 CREATE TRIGGER trg_lesson_max_participants_equals_facility_max_people
