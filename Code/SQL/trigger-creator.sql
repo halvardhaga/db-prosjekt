@@ -107,7 +107,7 @@ WHERE (
 END; */
 
 --Same but on update
-CREATE TRIGGER trg_group_instructor_must_be_sit_member_update
+/* CREATE TRIGGER trg_group_instructor_must_be_sit_member_update
 BEFORE UPDATE ON group_lesson
 BEGIN
 SELECT RAISE (ABORT, 'Update blocked: Instructor must have a sit membership.')
@@ -116,9 +116,11 @@ WHERE (
     FROM person
     WHERE id = NEW.instructor_id
 ) != 1;
-END;
+END; */
 
---Deny cancelation of a group lesson registration if the group lesson has already started
+--Deny cancelation of a group lesson registration if the group lesson has already started 
+--BRAGE: Cancelations burde vel ikke slette bookingen, fordi da mister man verdifull data? 
+--Pluss jeg tror kanskje vi ikke skal gidde å deale med cancelation logikk. Er ikke en del av use cases. 
 CREATE TRIGGER trg_prevent_cancelation_after_lesson_started
 BEFORE DELETE ON group_lesson_registration
 BEGIN
@@ -207,7 +209,6 @@ WHERE NOT EXISTS (
 );
 END;
 
-
 --Prevent registration for a group lesson if person does not have a sit membership
 CREATE TRIGGER trg_registration_requires_sit_membership
 BEFORE INSERT ON group_lesson_registration
@@ -219,3 +220,5 @@ WHERE (
     WHERE id = NEW.person_id
 ) != 1;
 END;
+
+--

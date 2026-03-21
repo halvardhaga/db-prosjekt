@@ -52,3 +52,5 @@ A way to find this out is by TODO
     - `trigger-creator.sql`: SQL script to create database triggers.
 
 ## Implemented logic
+TODO
+*Missing cancelation logic. 
