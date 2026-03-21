@@ -1,9 +1,11 @@
 Vil me ha triggers om kansellering av registrering?
 >Legge det ikke inn for nå, men noe å tenke om
 >Jo me må lowkey det siden ellers gir ikke waiting listen noe meining
+H: Vet ikke i hvilken grad vi skal bry oss om kanselleringer og queue logikk. Ikke nødvendig for use cases. 
 
 Triggers e noe shit, eg har aldri følt meg så lat som når eg drive å bare trykke 'tab' og ser om onkel har spytta
 ut noe fornuftig elle ikke
+H: modern coding is dead
 
 Usikker på om triggeren: trg_group_lesson_arrival_requires_gym_arrival på linje 116 funke ordentlig
 Sånn den sjekke korrekt om de har en gym_arrival før en group_lesson_arrival, men eg tror lowkey den bare
@@ -11,6 +13,7 @@ sjekke om du har en i det hele tatt, og sånn eg vetkje helt kossen me ska sjekk
 Muligens bare sjekke om det e innenfor 24t? IDK. VET DU KA? Eg legge te at det må vær på samme dag, skyt meg
 
 DET FINS FUCKINGS EVIGE EDGE CASES Å LAGE TRIGGERS OM
+H: Fokuser på det som er nødvendig for use cases. 
 
 Problemet e at det e så sykt mange triggers at eg har lowkey mista oversikten øve ka eg har lagt te og ikke lagt te
 Så eg 100% at du lese øve og sjekke logikken
