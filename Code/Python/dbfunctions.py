@@ -247,7 +247,7 @@ def visit_history (args: List, conn: sqlite3.Connection) -> str:
     if not person_id:
         raise ValueError("User not found")
     
-    #Fetch gym visits for given year BRAGE: SKal denne fetche gym visits eller group lesson visits???? ELLER BEGGE??
+    #Fetch gym visits for given year BRAGE TODO: SKal denne fetche gym visits eller group lesson visits???? ELLER BEGGE??
     cursor.execute("""
                    
                    """)
