@@ -68,18 +68,55 @@ def insert_dummy_data(args: List, conn: sqlite3.Connection) -> str:
     conn.executescript(sql)
     return "Dummy data inserted"
 
-#Use case 2
+#Use case 2 
+#We assume there are no two acitivities of the same category starting at the same time. TODO is this fair?
 def book_lesson (args: List, conn: sqlite3.Connection) -> str:
     """
     Create booking for group lesson.
 
     Args:
-        - username: 
-        - activity:
-        - time:
+        - email: The email of the user booking the lesson.
+        - phone: The phone number of the user booking the lesson.
+        - category: eg. yoga, spinning, etc.
+        - time: In the format YYYY-MM-DD HH:MM (e.g. 2026-03-15 18:30)
     """
-    #TODO
-    return "Function not implementet yet"
+    
+    if len(args) != 4:
+        raise ValueError("Usage: book_lesson <email> <phone> <category> <time>")
+    
+
+    #Check if person exists
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM person WHERE email = ? AND phone = ?", (args[0], args[1]))
+    person_id = cursor.fetchone()
+    if not person_id:
+        raise ValueError("User not found")
+    
+    #Check if category exists
+    cursor.execute("SELECT id FROM category WHERE name = ?", (args[2]))
+    category_id = cursor.fetchone()
+    if not category_id:
+        raise ValueError("Category not found")
+
+    #Check if class exists at given time
+    cursor.execute("""
+                   SELECT start_time, instructor_id 
+                   FROM group_lesson 
+                   JOIN activity ON activity_id = activity.id
+                   WHERE category_id = ? AND start_time = ?""", 
+                   (category_id[0], args[3]))
+    group_lesson = cursor.fetchone()
+    if not group_lesson:
+        raise ValueError("Group lesson not found")
+    start_time = group_lesson[0]
+    instructor_id = group_lesson[1]
+    
+    #QUEUE LOGIC TODO
+    queue_position = 0
+
+    cursor.execute("INSERT INTO group_lesson_registration (person_id, group_lesson_start_time, group_lesson_instructor_id, queue_position) VALUES ?, ?, ?, ?", (person_id, start_time, instructor_id, queue_position))
+
+    return "Group lesson booked successfully"
 
 #Use case 3
 def attend_gym (args: List, conn: sqlite3.Connection) -> str:
@@ -87,8 +124,9 @@ def attend_gym (args: List, conn: sqlite3.Connection) -> str:
     Registers that given user attended given gym at current time. 
 
     Args:
-        - username: 
-        - gym:
+        - email: The email of the user attending the gym.
+        - phone: The phone number of the user attending the gym.
+        - gym: The name or ID of the gym.
     """
     #TODO
     return "Function not implementet yet"

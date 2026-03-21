@@ -1,0 +1,6 @@
+Legge til bookings og arrivals for:
+* Jhonnys visit history (use case 5)
+* Person with most group lessons (use case 7)
+
+Queue logic. Trengs strengt tatt ikke for use cases. 
+
