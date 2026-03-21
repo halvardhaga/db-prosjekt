@@ -6,5 +6,8 @@ HVA FAEN ER EN SADDLE????
 Tror ikke programmet burde bruke nåværende tid for sjekker. 
 Det gjør det vanskeligere å teste use cases, dersom ting er dependent på maskinens tid. 
 >Skjønne ikke helt ka du meine her?
+H: Det jeg mener at at foreksempel for å registrere en arrival burde man egentlig passe tid inn som argument, hvis ikke blir det vanskelig å 
+inserte arrivals i db-inserter. Hvis vi alltid bruker timedate(now) så blir ting dependent på når sensor kjører koden. F.eks hvis han kjører koden utenfor 
+gym_opening time, så plutselig slutter ting å funke. 
 
 Burde category ha name som primary key? næh gidder ikke
