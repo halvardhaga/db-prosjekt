@@ -77,12 +77,12 @@ def book_lesson (args: List, conn: sqlite3.Connection) -> str:
     Args:
         - email: The email of the user booking the lesson.
         - phone: The phone number of the user booking the lesson.
-        - category: eg. yoga, spinning, etc.
+        - activity: eg. Sit WOD, spin60, etc. TODO dette funker jo ikke, vi trenger at alle acitivty names består av et ord
         - time: In the format YYYY-MM-DD HH:MM (e.g. 2026-03-15 18:30)
     """
     
     if len(args) != 4:
-        raise ValueError("Usage: book_lesson <email> <phone> <category> <time>")
+        raise ValueError("Usage: book_lesson <email> <phone> <activity> <time>")
     
 
     #Check if person exists, and fetch person id. 
@@ -92,19 +92,19 @@ def book_lesson (args: List, conn: sqlite3.Connection) -> str:
     if not person_id:
         raise ValueError("User not found")
     
-    #Check if category exists, and fetch category id
-    cursor.execute("SELECT id FROM category WHERE name = ?", (args[2]))
-    category_id = cursor.fetchone()
-    if not category_id:
-        raise ValueError("Category not found")
+    #Check if activity exists, and fetch activity id
+    cursor.execute("SELECT id FROM activity WHERE name = ?", (args[2]))
+    activity_id = cursor.fetchone()
+    if not activity_id:
+        raise ValueError("Activity not found")
 
     #Check if class exists at given time and fetch start time and instructor id
     cursor.execute("""
                    SELECT start_time, instructor_id 
                    FROM group_lesson 
                    JOIN activity ON activity_id = activity.id
-                   WHERE category_id = ? AND start_time = ?""", 
-                   (category_id[0], args[3]))
+                   WHERE activity_id = ? AND start_time = ?""", 
+                   (activity_id[0], args[3]))
     group_lesson = cursor.fetchone()
     if not group_lesson:
         raise ValueError("Group lesson not found")
@@ -158,12 +158,12 @@ def attend_class (args: List, conn: sqlite3.Connection) -> str:
     Args:
         - email: The email of the user booking the lesson.
         - phone: The phone number of the user booking the lesson.
-        - category: eg. yoga, spinning, etc.
+        - activity: eg. yoga, spinning, etc.
         - time: In the format YYYY-MM-DD HH:MM (e.g. 2026-03-15 18:30)
     """
        
     if len(args) != 4:
-        raise ValueError("Usage: attend_class <email> <phone> <category> <time>")
+        raise ValueError("Usage: attend_class <email> <phone> <activity> <time>")
 
     #Check if person exists, and fetch person id. 
     cursor = conn.cursor()
@@ -172,19 +172,19 @@ def attend_class (args: List, conn: sqlite3.Connection) -> str:
     if not person_id:
         raise ValueError("User not found")
     
-    #Check if category exists, and fetch category id
-    cursor.execute("SELECT id FROM category WHERE name = ?", (args[2]))
-    category_id = cursor.fetchone()
-    if not category_id:
-        raise ValueError("Category not found")
+    #Check if activity exists, and fetch activity id
+    cursor.execute("SELECT id FROM activity WHERE name = ?", (args[2]))
+    activity_id = cursor.fetchone()
+    if not activity_id:
+        raise ValueError("Activity not found")
 
     #Check if class exists at given time and fetch start time and instructor id
     cursor.execute("""
                    SELECT start_time, instructor_id 
                    FROM group_lesson 
                    JOIN activity ON activity_id = activity.id
-                   WHERE category_id = ? AND start_time = ?""", 
-                   (category_id[0], args[3]))
+                   WHERE activity_id = ? AND start_time = ?""", 
+                   (activity_id[0], args[3]))
     group_lesson = cursor.fetchone()
     if not group_lesson:
         raise ValueError("Group lesson not found")
@@ -210,10 +210,9 @@ def weekly_schedule (args: List, conn: sqlite3.Connection) -> str:
     
     cursor = conn.cursor()
     cursor.execute("""
-                    SELECT start_time, category.name, person.first_name
+                    SELECT start_time, activity.name, person.first_name
                     FROM group_lesson
                     JOIN activity ON group_lesson.activity_id = activity.id
-                    JOIN category ON activity.category_id = category.id
                     JOIN person ON group_lesson.instructor_id = person.id
                     WHERE date(start_time) >= date(?) AND date(start_time) < date(?, '+7 day')
                    )""", (args[0], args[0]))
@@ -247,9 +246,13 @@ def visit_history (args: List, conn: sqlite3.Connection) -> str:
     if not person_id:
         raise ValueError("User not found")
     
-    #Fetch gym visits for given year BRAGE TODO: SKal denne fetche gym visits eller group lesson visits???? ELLER BEGGE??
+    #BRAGE TODO: SKal denne fetche gym visits eller group lesson visits???? ELLER BEGGE??
+    #Fetch gym visits for given year 
+    #TODO REMOVE Print which training, training center and date/time of the training.
     cursor.execute("""
-                   
+                   SELECT category.name, gym.name, group_lesson.start_time
+                   FROM group_lesson_arrival
+                   JOIN group_lesson
                    """)
 
     return "Function not implementet yet"
