@@ -93,41 +93,6 @@ WHERE NEW.max_participants_at_creation != (
 );
 END;
 
---Group lessons must be made by someone with a sit membership 
---BRAGE TODO REMOVE: dette er ikke sant tho right? Dette føles for hard enforcement. Tror ikke instructor MÅ 100% ALLTID INGEN UNNTAK være sit medlem. 
-/* CREATE TRIGGER trg_group_instructor_must_be_sit_member
-BEFORE INSERT ON group_lesson
-BEGIN
-SELECT RAISE (ABORT, 'Creation blocked: Instructor must have a sit membership.')
-WHERE (
-    SELECT is_sit_member
-    FROM person
-    WHERE id = NEW.instructor_id
-) != 1;
-END; */
-
---Same but on update
-/* CREATE TRIGGER trg_group_instructor_must_be_sit_member_update
-BEFORE UPDATE ON group_lesson
-BEGIN
-SELECT RAISE (ABORT, 'Update blocked: Instructor must have a sit membership.')
-WHERE (
-    SELECT is_sit_member
-    FROM person
-    WHERE id = NEW.instructor_id
-) != 1;
-END; */
-
---Deny cancelation of a group lesson registration if the group lesson has already started 
---BRAGE: Cancelations burde vel ikke slette bookingen, fordi da mister man verdifull data? 
---Pluss jeg tror kanskje vi ikke skal gidde å deale med cancelation logikk. Er ikke en del av use cases. 
-CREATE TRIGGER trg_prevent_cancelation_after_lesson_started
-BEFORE DELETE ON group_lesson_registration
-BEGIN
-SELECT RAISE (ABORT, 'Cancellation blocked: Cannot cancel registration after the group lesson has started.')
-WHERE datetime(OLD.group_lesson_start_time) <= datetime('now');
-END;
-
 --Make sure a person has arrived at the gym before they can arrive at a group lesson
 CREATE TRIGGER trg_group_lesson_arrival_requires_gym_arrival
 BEFORE INSERT ON group_lesson_arrival
